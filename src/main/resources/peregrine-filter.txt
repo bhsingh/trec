@@ -1,0 +1,100 @@
+30705	Patients	333856
+4363932	helium atom	247086
+43177	Wills	113305
+1321605	Compliance behavior	98697
+1873497	normal assessment finding	80778
+817096	Chest	65748
+2348077	Date Fruit	62924
+1947903	See	55950
+2926602	body substance discharge	54407
+-	30193	Pain	53942
+-	2700401	Deny (action)	51491
+-	311392	Physical findings	48619
+-	3054258	ENG	46587
+226896	Oral cavity	45693
+-	1514562	Protein Domain	44050
+24109	Lung	43741
+18787	Heart	42204
+-	4040314	BBB	40233
+12621	body fluid discharge	36150
+-	1278910	entire oral cavity	35626 (ambiguous with line 14 226896	Oral cavity	45693)
+-	28811	Occupations	35405
+-	230028	Oral region	35232  (ambiguous with line 14 and 20 226896	Oral cavity	45693)
+-	1267547	entire mouth region	35232 (ambiguous with line 14 and 20 and 22 )
+-	2826594	Computer Job	35206
+726	Abdomen	34733
+30685	Patient Discharge	33877
+600083	discharge, body substance, sample	31519
+13404	Dyspnea	31124
+1527391	anterior thoracic region	30377
+22885	Laboratory Procedures	29760
+27530	Neck	27123
+230168	Abdominal Cavity	26435
+1281594	Entire abdomen	26176
+3051012	EHD1	24911
+9818	Consultation	24757
+2003888	Lower (action)	24212
+8031	Chest Pain	24035
+15780	Female	23967
+406810	Carney Complex	23887
+4360863	1H-imidazole	22966
+1527305	Feelings	22669
+184661	Interventional procedure	22510
+32074	cognitive function: planning	22132
+1522577	follow-up	22108
+1948041	surgical and medical procedures	22094
+15967	Fever	21933
+7457	Caucasoid Race	21903
+27497	Nausea	21888
+13956	Emergency Situation	21609
+1553500	act code - emergency	21609
+2745965	emergencies [disease/finding]	21609
+43157	Caucasians	21522
+11900	Diagnosis	21507
+5823	Blood Pressure	21455
+20538	Hypertensive disease	21263
+1123023	Skin	21248
+1963179	nausea adverse event	20898
+1947959	Goes <invertebrate>	20659
+4363917	sodium atom	20512
+1608512	Vomitus - SpecimenType	20384
+4358645	beta-D-mannose	20239
+42963	Vomiting	20227
+13604	Edema	20130
+15385	Limb structure	20044
+239110	Consciousness clear	20025
+391850	Physiologic pulse	19740
+2700391	procedure (set of actions)	19728
+1504310	Areae	19711
+229664	peripheral blood	19644
+1512338	HEENT	19330
+2999250	oedema	19211
+16658	Fracture	19186
+34107	Pulse taking	19155
+1947910	Pulse phenomenon	19155
+1457887	Symptoms	19035
+871208	Rating (action)	18861
+42965	Vomitus	18831
+1962945	radiographic imaging procedure	18724
+1963281	vomiting adverse event	18670
+4353424	paracetamol	18542
+11923	Diagnostic Imaging	18186
+79595	Imaging Techniques	18145
+1704382	Imaging Technology	18136
+683368	symptoms	18034
+18670	Head	17972
+1963113	fracture adverse event	17970
+24554	Male gender	17428
+700361	Emotional distress	17198
+39476	Temperature	17112
+27536	Necking (finding)	16934
+4600	Back	16837
+11991	Diarrhea	16835
+460009	including back of neck back structure	16790
+231303	Distress	16781
+1522484	secondary	16668
+38895	operative procedures	16637
+1995000	excluding neck back structure	16501
+1281593	entire back (surface region)	16501
+19994	Hospitals	16426
+5768	In Blood	16332
