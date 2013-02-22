@@ -13,42 +13,12 @@
 			<artifactId>opennlp-tools</artifactId>
 			<version>1.5.2-incubating</version>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.apache.opennlp</groupId> -->
-<!-- 			<artifactId>opennlp-uima</artifactId> -->
-<!-- 			<version>1.5.2-incubating</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.apache.opennlp</groupId> -->
-<!-- 			<artifactId>opennlp-maxent</artifactId> -->
-<!-- 			<version>3.0.2-incubating</version> -->
-<!-- 		</dependency> -->
-		<!-- Negation scope -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>uwm.edu.negscope</groupId> -->
-<!-- 			<artifactId>abner</artifactId> -->
-<!-- 			<version>0.1</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>uwm.edu.negscope</groupId> -->
-<!-- 			<artifactId>java_utils</artifactId> -->
-<!-- 			<version>0.1</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>uwm.edu.negscope</groupId> -->
-<!-- 			<artifactId>stanford-postagger</artifactId> -->
-<!-- 			<version>0.1</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>uwm.edu.negscope</groupId> -->
-<!-- 			<artifactId>i2b2knowtatorparser</artifactId> -->
-<!-- 			<version>0.1</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>uwm.edu.negscope</groupId> -->
-<!-- 			<artifactId>negscope-bin</artifactId> -->
-<!-- 			<version>0.1</version> -->
-<!-- 		</dependency> -->
+		<!-- CSV parsing and output -->
+		<dependency>
+			<groupId>net.sf.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>2.1</version>
+		</dependency>
 		<!-- logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -65,10 +35,17 @@
 			<artifactId>logback-core</artifactId>
 			<version>0.9.28</version>
 		</dependency>
+		<!-- reading file -->
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.4</version>
+		</dependency>
+		<!-- mysql -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.16</version>
 		</dependency>
 	</dependencies>
 </project>

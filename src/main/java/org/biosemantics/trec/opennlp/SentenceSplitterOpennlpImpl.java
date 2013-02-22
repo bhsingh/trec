@@ -1,4 +1,4 @@
-package org.biosemantics.trec.report.split;
+package org.biosemantics.trec.opennlp;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,7 +42,7 @@ public class SentenceSplitterOpennlpImpl {
 		SentenceSplitterOpennlpImpl splitter = new SentenceSplitterOpennlpImpl(
 				"/Users/bhsingh/code/git/trec/src/main/resources/en-sent.bin");
 		String text = FileUtils
-				.readFileToString(new File("/Users/bhsingh/code/git/trec/src/main/resources/report1.txt"));
+				.readFileToString(new File("/Users/bhsingh/code/git/trec/src/main/resources/report2.txt"));
 		String[] lines = splitter.split(text);
 		for (String line : lines) {
 			String formattedLine = line.replaceAll("\\s+", " ");

@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.biosemantics.trec.negation.service.NegationExtractorService;
-import org.biosemantics.trec.negation.service.SentenceNegation;
+import org.biosemantics.trec.negation.NegationExtractorService;
+import org.biosemantics.trec.negation.SentenceNegation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

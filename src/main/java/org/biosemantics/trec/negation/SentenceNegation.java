@@ -1,4 +1,4 @@
-package org.biosemantics.trec.negation.service;
+package org.biosemantics.trec.negation;
 
 public class SentenceNegation {
 	private int start_pos = -1;

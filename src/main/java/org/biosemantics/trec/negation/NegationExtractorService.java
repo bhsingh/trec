@@ -1,4 +1,4 @@
-package org.biosemantics.trec.negation.service;
+package org.biosemantics.trec.negation;
 
 import java.util.ArrayList;
 

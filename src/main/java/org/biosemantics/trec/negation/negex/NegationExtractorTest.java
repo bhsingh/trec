@@ -2,8 +2,8 @@ package org.biosemantics.trec.negation.negex;
 
 import java.util.ArrayList;
 
-import org.biosemantics.trec.negation.service.NegationExtractorService;
-import org.biosemantics.trec.negation.service.SentenceNegation;
+import org.biosemantics.trec.negation.NegationExtractorService;
+import org.biosemantics.trec.negation.SentenceNegation;
 
 public class NegationExtractorTest {
 
