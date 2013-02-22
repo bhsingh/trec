@@ -13,42 +13,42 @@
 			<artifactId>opennlp-tools</artifactId>
 			<version>1.5.2-incubating</version>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.opennlp</groupId>
-			<artifactId>opennlp-uima</artifactId>
-			<version>1.5.2-incubating</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.opennlp</groupId>
-			<artifactId>opennlp-maxent</artifactId>
-			<version>3.0.2-incubating</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.apache.opennlp</groupId> -->
+<!-- 			<artifactId>opennlp-uima</artifactId> -->
+<!-- 			<version>1.5.2-incubating</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.apache.opennlp</groupId> -->
+<!-- 			<artifactId>opennlp-maxent</artifactId> -->
+<!-- 			<version>3.0.2-incubating</version> -->
+<!-- 		</dependency> -->
 		<!-- Negation scope -->
-		<dependency>
-			<groupId>uwm.edu.negscope</groupId>
-			<artifactId>abner</artifactId>
-			<version>0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>uwm.edu.negscope</groupId>
-			<artifactId>java_utils</artifactId>
-			<version>0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>uwm.edu.negscope</groupId>
-			<artifactId>stanford-postagger</artifactId>
-			<version>0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>uwm.edu.negscope</groupId>
-			<artifactId>i2b2knowtatorparser</artifactId>
-			<version>0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>uwm.edu.negscope</groupId>
-			<artifactId>negscope-bin</artifactId>
-			<version>0.1</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>uwm.edu.negscope</groupId> -->
+<!-- 			<artifactId>abner</artifactId> -->
+<!-- 			<version>0.1</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>uwm.edu.negscope</groupId> -->
+<!-- 			<artifactId>java_utils</artifactId> -->
+<!-- 			<version>0.1</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>uwm.edu.negscope</groupId> -->
+<!-- 			<artifactId>stanford-postagger</artifactId> -->
+<!-- 			<version>0.1</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>uwm.edu.negscope</groupId> -->
+<!-- 			<artifactId>i2b2knowtatorparser</artifactId> -->
+<!-- 			<version>0.1</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>uwm.edu.negscope</groupId> -->
+<!-- 			<artifactId>negscope-bin</artifactId> -->
+<!-- 			<version>0.1</version> -->
+<!-- 		</dependency> -->
 		<!-- logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -64,6 +64,11 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
 			<version>0.9.28</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
 		</dependency>
 	</dependencies>
 </project>

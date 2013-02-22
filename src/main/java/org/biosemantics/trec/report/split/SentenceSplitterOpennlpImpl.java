@@ -1,8 +1,12 @@
 package org.biosemantics.trec.report.split;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+
+import org.apache.commons.io.FileUtils;
 
 import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.sentdetect.SentenceModel;
@@ -32,5 +36,20 @@ public class SentenceSplitterOpennlpImpl {
 			} catch (IOException e) {
 			}
 		}
+	}
+
+	public static void main(String[] args) throws InvalidFormatException, IOException {
+		SentenceSplitterOpennlpImpl splitter = new SentenceSplitterOpennlpImpl(
+				"/Users/bhsingh/code/git/trec/src/main/resources/en-sent.bin");
+		String text = FileUtils
+				.readFileToString(new File("/Users/bhsingh/code/git/trec/src/main/resources/report1.txt"));
+		String[] lines = splitter.split(text);
+		for (String line : lines) {
+			String formattedLine = line.replaceAll("\\s+", " ");
+			System.out.println(formattedLine);
+
+			System.out.println("---------------------------");
+		}
+		splitter.destroy();
 	}
 }
