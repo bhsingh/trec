@@ -9,7 +9,7 @@ public class NegationExtractorTest {
 
 	public static void main(String[] args){
 //		String sentence = "**INSTITUTION:  The patient was not transferred from the  TCU where she was noted to have worsening of her renal function.";
-		String sentence = "The patient is being discharged on the following medications: 1. not Procrit 20,000 units subcutaneously every Tuesdays and Saturdays.";
+		String sentence = "After her hospital stay, the patient denied any chest pain.";
 		NegationExtractorService negex = new NegExImpl();
 		System.out.println("Sentence: " + sentence);
 		ArrayList<SentenceNegation> results = negex.getNegations(sentence);
