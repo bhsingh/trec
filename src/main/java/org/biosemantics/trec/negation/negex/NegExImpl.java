@@ -31,6 +31,8 @@ public class NegExImpl implements NegationExtractorService {
 	}
 
 	public ArrayList<SentenceNegation> getNegations(String sentence) {
+		// FIXME : negex works only with lower case
+		sentence = sentence.toLowerCase();
 		ArrayList<SentenceNegation> results = new ArrayList<SentenceNegation>();
 		int count = 0;
 
@@ -51,9 +53,9 @@ public class NegExImpl implements NegationExtractorService {
 
 			int scope_end = getScopePosition(scope, 1);
 
-//			if (ExceptionsFound(scope, newSentence)) {
-//				return results;
-//			}
+			// if (ExceptionsFound(scope, newSentence)) {
+			// return results;
+			// }
 
 			if (scope_end <= 0) {
 				return results;
@@ -86,8 +88,9 @@ public class NegExImpl implements NegationExtractorService {
 	}
 
 	/**
-	 * If the only negation trigger found is at the end of the sentence, return false and do not do any processing this
-	 * hack needs to be fixed at the sentence creation side so a sentence do not end with a negation word.
+	 * If the only negation trigger found is at the end of the sentence, return
+	 * false and do not do any processing this hack needs to be fixed at the
+	 * sentence creation side so a sentence do not end with a negation word.
 	 * 
 	 * @param scope
 	 * @param newSentence
