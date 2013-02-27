@@ -81,28 +81,11 @@ public class ReportSearch {
 		csvReader.close();
 	}
 
-	public List<String> getReportsForVisit(String visit) throws SQLException {
-		Connection connection = getConnection();
-		PreparedStatement ps = connection.prepareStatement(GET_CHECKSUM_SQL);
-		ps.setString(1, visit);
-		ResultSet rs = ps.executeQuery();
-		List<String> reports = new ArrayList<String>();
-		try {
-			while (rs.next()) {
-				reports.add(rs.getString("checksum"));
-			}
-		} finally {
-			rs.close();
-			ps.close();
-			connection.close();
-		}
-		return reports;
-	}
 	
 	public List<String> getPositiveCuisForReport(String checksum){
 		return positiveConcepts.get(checksum);
 	}
 
-	private static final String GET_CHECKSUM_SQL = "select checksum from report_mapping where visitid = ?";
+	
 	private static final String CONCEPTS_FILE = "/home/bhsingh/Public/concept.txt";
 }
