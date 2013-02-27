@@ -1,7 +1,8 @@
 package org.biosemantics.trec.report;
 
+import au.com.bytecode.opencsv.CSVReader;
+import au.com.bytecode.opencsv.CSVWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,20 +12,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import org.biosemantics.trec.negation.NegationExtractorService;
+import org.biosemantics.trec.negation.SentenceNegation;
+import org.biosemantics.trec.negation.negex.NegExImpl;
 import org.biosemantics.trec.opennlp.SentenceSplitterOpennlpImpl;
 import org.biosemantics.utility.peregrine.PeregrineRmiClient;
 import org.erasmusmc.data_mining.ontology.api.Language;
 import org.erasmusmc.data_mining.peregrine.api.IndexingResult;
 import org.erasmusmc.data_mining.peregrine.api.Peregrine;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import au.com.bytecode.opencsv.CSVReader;
-import au.com.bytecode.opencsv.CSVWriter;
-import java.sql.PreparedStatement;
 
 public class ReportParser {
 
@@ -35,7 +39,6 @@ public class ReportParser {
             e.printStackTrace();
         }
     }
-
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection("jdbc:mysql://localhost/trec2011?" + "user=root&password=");
     }
@@ -110,32 +113,68 @@ public class ReportParser {
         }
     }
 
-  
-
     public void indexSentences() throws IOException {
         CSVReader csvReader = new CSVReader(new FileReader(SENTENCE_FILE));
         CSVWriter csvWriter = new CSVWriter(new FileWriter(new File(CONCEPTS_FILE)));
+        Map<String, Integer> freqmap = new HashMap<String, Integer>();
+        ValueComparator bvc = new ValueComparator(freqmap);
+        TreeMap<String, Integer> sorted_map = new TreeMap<String, Integer>(bvc);
         ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext(
                 new String[]{"/org/biosemantics/utility/peregrine/peregrine-utility-context.xml"});
         PeregrineRmiClient peregrineRmiClient = (PeregrineRmiClient) appContext.getBean("peregrineRmiClient");
+        NegationExtractorService negex = new NegExImpl();
         Peregrine peregrine = peregrineRmiClient.getPeregrine();
         List<String[]> lines = csvReader.readAll();
         List<String> output = new ArrayList<String>();
         int ctr = 0;
-        for (String[] columns : lines) {
-            String text = columns[2];
-            output.add(columns[0]);
-            output.add(columns[1]);
-            List<IndexingResult> indexingResults = peregrine.index(text, Language.EN);
-            for (IndexingResult indexingResult : indexingResults) {
-                output.add(String.format("C%07d", (Integer) indexingResult.getTermId().getConceptId()));
+        try {
+            for (String[] columns : lines) {
+                String text = columns[2];
+                output.add(columns[0]);
+                output.add(columns[1]);
+                output.add(text);
+                ArrayList<SentenceNegation> sentenceNegations = negex.getNegations(text);
+                List<IndexingResult> indexingResults = peregrine.index(text, Language.EN);
+                for (IndexingResult indexingResult : indexingResults) {
+                    String concept = String.format("C%07d", (Integer) indexingResult.getTermId().getConceptId());
+                    int conceptStartPos = indexingResult.getStartPos() + 1;
+                    int conceptEndPos = indexingResult.getEndPos() + 2;
+                    boolean negated = false;
+                    if (sentenceNegations != null) {
+                        for (SentenceNegation negation : sentenceNegations) {
+                            if (negation.getStart_pos() <= conceptStartPos && negation.getEnd_pos() >= conceptEndPos) {
+                                negated = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (negated) {
+                        output.add(concept + "|" + 1 + "|" + conceptStartPos + "|" + conceptEndPos);
+                    } else {
+                        output.add(concept + "|" + 0 + "|" + conceptStartPos + "|" + conceptEndPos);
+                    }
+                    int frequency = 0;
+                    if (freqmap.containsKey(concept)) {
+                        frequency = freqmap.get(concept);
+                    }
+                    freqmap.put(concept, ++frequency);
+                }
+                csvWriter.writeNext(output.toArray(new String[output.size()]));
+                System.out.println(++ctr);
+                output.clear();
             }
-            csvWriter.writeNext(output.toArray(new String[output.size()]));
-            System.out.println(++ctr);
+        } finally {
+            csvWriter.flush();
+            csvWriter.close();
+            csvReader.close();
         }
-        csvWriter.flush();
-        csvWriter.close();
-        csvReader.close();
+        sorted_map.putAll(freqmap);
+        CSVWriter freqWriter = new CSVWriter(new FileWriter(new File(CONCEPTS_FREQ_FILE)));
+        for (Entry<String, Integer> entry : sorted_map.entrySet()) {
+            freqWriter.writeNext(new String[]{entry.getKey(), String.valueOf(entry.getValue())});
+        }
+        freqWriter.flush();
+        freqWriter.close();
 
     }
 
@@ -144,9 +183,28 @@ public class ReportParser {
         reportParser.indexSentences();
     }
     private static final String REPORT_SQL = "select checksum, report_text from report";
-    private static final String GET_CHECKSUM_SQL = "select checksum from report_mapping where visitid = ?";
-    private static final String SENTENCE_FILE = "/Users/bhsingh/code/data/trec2013/sentence.txt";
-    private static final String HEADINGS_FILE = "/Users/bhsingh/code/data/trec2013/heading.txt";
-    private static final String CONCEPTS_FILE = "/Users/bhsingh/code/data/trec2013/concept.txt";
-    Pattern pattern = Pattern.compile("([A-Z]+\\s*?)+:");
+    private static final String SENTENCE_FILE = "/home/bhsingh/Public/sentence.txt";
+    private static final String HEADINGS_FILE = "/home/bhsingh/Public/heading.txt";
+    private static final String CONCEPTS_FILE = "/home/bhsingh/Public/concept.txt";
+    private static final String CONCEPTS_FREQ_FILE = "/home/bhsingh/Public/frequency.txt";
+    private Pattern pattern = Pattern.compile("([A-Z]+\\s*?)+:");
+}
+
+class ValueComparator implements Comparator<String> {
+
+    Map<String, Integer> base;
+
+    public ValueComparator(Map<String, Integer> base) {
+        this.base = base;
+    }
+
+    // Note: this comparator imposes orderings that are inconsistent with
+    // equals.
+    public int compare(String a, String b) {
+        if (base.get(a) >= base.get(b)) {
+            return -1;
+        } else {
+            return 1;
+        } // returning 0 would merge keys
+    }
 }
