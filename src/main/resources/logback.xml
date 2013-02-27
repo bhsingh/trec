@@ -6,7 +6,7 @@
 		</filter>
 		<file>dataimport.log</file>
 		<encoder>
-			<pattern>%date %logger{10} [%line] %msg%n</pattern>
+			<pattern>%msg%n</pattern>
 		</encoder>
 	</appender>
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
