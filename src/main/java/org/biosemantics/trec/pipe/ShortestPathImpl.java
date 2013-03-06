@@ -9,36 +9,37 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.biosemantics.conceptstore.client.GraphDbInitializer;
+import org.biosemantics.trec.kb.CachedKbClient;
 import org.biosemantics.trec.report.ReportSearch;
+import org.biosemantics.trec.report.TfIdfCalculator;
+import org.biosemantics.trec.report.TrecDatabaseUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ShortestPathImpl {
 
 	private static final String GRAPH_DB = "/media/ssd/bhsingh/graph.db";
-	private static GraphDbInitializer db;
 	private static ReportSearch reportSearch;
-	private static final String[] topicCuis = new String[] { "C0011053", "C0018772", "C1384666", "C2029884" };
+	private static TrecDatabaseUtility trecDatabaseUtility;
+	 private static final String[] topicCuis = new String[] { "C0011053",
+	 "C0018772", "C1384666", "C2029884" };
+//	private static final String[] topicCuis = new String[] { "C0011053" };
 	// private static final String[] visits = new String[] { "+SKG7tCxA/zR",
 	// "+W4IQBZ/eY/Q", "u5Vz3dfoZa1d" };
 	// rel not,partially
+	private static TfIdfCalculator tfIdfCalculator;
 	private static final Logger logger = LoggerFactory.getLogger(ShortestPathImpl.class); // ,
+	private static CachedKbClient cachedKbClient;
 
-	public void init() throws IOException {
-		// Map<String, String> config =
-		// MapUtil.stringMap("neostore.propertystore.db.index.keys.mapped_memory",
-		// "500M",
-		// "neostore.propertystore.db.index.mapped_memory", "500M",
-		// "neostore.nodestore.db.mapped_memory",
-		// "2000M", "neostore.relationshipstore.db.mapped_memory", "1000M",
-		// "neostore.propertystore.db.mapped_memory", "1000M",
-		// "neostore.propertystore.db.strings.mapped_memory",
-		// "2000M");
-		db = new GraphDbInitializer(GRAPH_DB);
+	public void init() throws IOException, SQLException {
 		reportSearch = new ReportSearch();
+		trecDatabaseUtility = new TrecDatabaseUtility();
+		tfIdfCalculator = new TfIdfCalculator();
+		cachedKbClient = new CachedKbClient(GRAPH_DB);
 	}
 
 	public static void main(String[] args) throws IOException, SQLException {
@@ -50,14 +51,19 @@ public class ShortestPathImpl {
 			String[] columns = line.split("\\|");
 			String visit = columns[1];
 			String answer = columns[2];
-			List<String> reports = reportSearch.getReportsForVisit(visit);
+			Set<String> reports = trecDatabaseUtility.getReportsForVisit(visit);
 			List<String> reportCuis = new ArrayList<String>();
 			for (String report : reports) {
-				reportCuis.addAll(reportSearch.getPositiveCuisForReport(report));
+				List<String> concepts = reportSearch.getPositiveCuisForReport(report);
+				if (concepts == null || concepts.isEmpty()) {
+					logger.debug("no positive concepts found for report {}", report);
+				} else {
+					reportCuis.addAll(concepts);
+				}
 			}
-			ShortestPathScoreCalculator shortestPathScoreCalculator = new ShortestPathScoreCalculator(topicCuis,
-					reportCuis, answer, visit, db);
-			new Thread(shortestPathScoreCalculator).start();
+			ShortestPathWithTfIdf tfIdfCal = new ShortestPathWithTfIdf(topicCuis, reportCuis, answer, visit,
+					tfIdfCalculator, cachedKbClient);
+			new Thread(tfIdfCal).start();
 		}
 	}
 }

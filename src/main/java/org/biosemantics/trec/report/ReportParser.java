@@ -46,7 +46,7 @@ public class ReportParser {
 
 	public void reportsToSentences() throws SQLException, IOException {
 		SentenceSplitterOpennlpImpl splitter = new SentenceSplitterOpennlpImpl(
-				"/Users/bhsingh/code/git/trec/src/main/resources/en-sent.bin");
+				"/home/bhsingh/code/git/trec/src/main/resources/en-sent.bin");
 		Connection connection = getConnection();
 		Statement statement = connection.createStatement();
 		ResultSet rs = statement.executeQuery(REPORT_SQL);

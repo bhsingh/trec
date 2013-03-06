@@ -20,7 +20,7 @@ public class TrecDatabaseUtility {
     }
 
     private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://localhost/trec2011?" + "user=root&password=");
+        return DriverManager.getConnection("jdbc:mysql://10.218.27.190/trec_med_rec_2011?" + "user=root&password=21biosemantiek!?");
     }
     private Connection textConnection;
     private PreparedStatement textPreparedStatement;
