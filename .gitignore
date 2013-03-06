@@ -4,3 +4,4 @@
 target/
 *.prefs
 *.MF
+/*.log
