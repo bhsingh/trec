@@ -8,12 +8,12 @@ import org.biosemantics.conceptstore.client.GraphDbInitializer;
 import org.biosemantics.conceptstore.domain.Concept;
 import org.biosemantics.conceptstore.domain.Notation;
 import org.neo4j.graphdb.Path;
-import org.neo4j.helpers.collection.MapUtil;
 
 public class CachedKbClient {
 
 	private GraphDbInitializer db;
-	private Map<String, Integer> pathMap = new HashMap<String, Integer>();
+	private Map<String, Integer> pathLengthMap = new HashMap<String, Integer>();
+	private Map<String, Boolean> pathExistsMap = new HashMap<String, Boolean>();
 	private Map<String, Long> cuiMap = new HashMap<String, Long>();
 
 	public CachedKbClient(String dbPath) {
@@ -31,8 +31,8 @@ public class CachedKbClient {
 
 	public Integer getPathLength(String from, String to, int max) {
 		Integer pathLength = 0;
-		if (pathMap.containsKey(from + to)) {
-			pathLength = pathMap.get(from + to);
+		if (pathLengthMap.containsKey(from + to)) {
+			pathLength = pathLengthMap.get(from + to);
 		} else {
 			Long fromId = getConceptForCui(from);
 			Long toId = getConceptForCui(to);
@@ -43,9 +43,28 @@ public class CachedKbClient {
 					break;
 				}
 			}
-			pathMap.put(from + to, pathLength);
+			pathLengthMap.put(from + to, pathLength);
 		}
 		return pathLength;
+	}
+
+	public boolean pathExists(String from, String to, int max) {
+		if (pathExistsMap.containsKey(from + to)) {
+			return pathExistsMap.get(from + to);
+		} else {
+			Long fromId = getConceptForCui(from);
+			Long toId = getConceptForCui(to);
+			Iterable<Path> paths = db.getTraversalRepository().findShortestPath(fromId, toId, max);
+			boolean exists = false;
+			if (paths != null) {
+				for (Path path : paths) {
+					exists = true;
+					break;
+				}
+			}
+			pathExistsMap.put(from + to, exists);
+			return exists;
+		}
 	}
 
 	public Long getConceptForCui(String cui) {
