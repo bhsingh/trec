@@ -1,15 +1,10 @@
-package org.biosemantics.trec.pipe;
+package org.biosemantics.trec.pipe.calculator;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 
-import org.biosemantics.conceptstore.client.GraphDbInitializer;
-import org.biosemantics.conceptstore.domain.Concept;
-import org.biosemantics.conceptstore.domain.Notation;
 import org.biosemantics.trec.kb.CachedKbClient;
 import org.biosemantics.trec.report.TfIdfCalculator;
-import org.neo4j.graphdb.Path;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,14 +53,14 @@ public class ShortestPathWithTfIdf implements Runnable {
 		float exactmatches = 0F;
 		for (String topicCui : topicCuis) {
 			for (String reportCui : reportCuis) {
-				float score = 0F;
+				double score = 0F;
 				int intPathLength = cachedKbClient.getPathLength(topicCui, reportCui, 2);
 				if (intPathLength != 0) {
 					matches++;
 					if (intPathLength == 1) {
 						exactmatches++;
 					}
-					Float tfIdf = tfIdfCalculator.getTfIdf(visit, reportCui);
+					Double tfIdf = tfIdfCalculator.getTfIdf(visit, reportCui);
 					if (tfIdf == null) {
 						logger.error("no tfidf found for {} {}", new Object[] { visit, reportCui });
 					} else {

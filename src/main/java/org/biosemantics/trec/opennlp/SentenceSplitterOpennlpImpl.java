@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.sentdetect.SentenceModel;
@@ -26,6 +28,44 @@ public class SentenceSplitterOpennlpImpl {
 	public String[] split(String text) {
 		String[] sentences = sentenceDetector.sentDetect(text);
 		return sentences;
+	}
+
+	public List<String> getFormattedSentences(String text) {
+		String[] sentences = split(text);
+		List<String> formattedSentences = new ArrayList<String>();
+		for (String sentence : sentences) {
+			if (sentence.contains("Safe-harbor compliant")) {
+				// 2955530 sentence.txt
+				continue;
+			}
+			if (sentence.contains("Electronically Signed by")) {
+				// 2933893 sentence.txt
+				continue;
+			}
+			if (sentence.contains("Dictated by")) {
+				// 2933893 sentence.txt
+				continue;
+			}
+			if (sentence.contains("Thank you")) {
+				// 2928558 sentence.txt
+				continue;
+			}
+			if (sentence.contains("____________________________")) {
+				// 2895847 sentence.txt
+				continue;
+			}
+			if (sentence.contains("CARBON-COPY")) {
+				// 2892743 sentence.txt
+				continue;
+			}
+			if (sentence.contains("END OF IMPRESSION")) {
+				// 2848309 sentence.txt
+				continue;
+			}
+			String formattedSentence = sentence.replaceAll("\\s+", " ");
+			formattedSentences.add(formattedSentence);
+		}
+		return formattedSentences;
 	}
 
 	public void destroy() throws IOException {

@@ -1,4 +1,4 @@
-package org.biosemantics.trec.pipe;
+package org.biosemantics.trec.pipe.calculator;
 
 import java.util.Collection;
 import java.util.List;
