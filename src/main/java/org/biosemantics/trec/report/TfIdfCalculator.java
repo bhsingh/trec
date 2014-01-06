@@ -13,20 +13,18 @@ import java.util.Set;
 
 import opennlp.tools.util.InvalidFormatException;
 
-import org.biosemantics.utility.peregrine.PeregrineRmiClient;
 import org.erasmusmc.data_mining.ontology.api.Language;
 import org.erasmusmc.data_mining.peregrine.api.IndexingResult;
 import org.erasmusmc.data_mining.peregrine.api.Peregrine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
 
 public class TfIdfCalculator {
 
-	private static final String TFIDF_FILE = "/home/bhsingh/Public/tfidf.txt";
+	private static final String TFIDF_FILE = "/Users/bhsingh/code/data/trec2013/tfidf.txt";
 	private TrecDatabaseUtility trecDatabaseUtility;
 	private ReportUtility reportUtility;
 	private Peregrine peregrine;
@@ -36,18 +34,6 @@ public class TfIdfCalculator {
 	public TfIdfCalculator() throws SQLException, InvalidFormatException, IOException {
 		trecDatabaseUtility = new TrecDatabaseUtility();
 		reportUtility = new ReportUtility();
-		if (tfIdfMap.size() == 0) {
-			// add to map
-			logger.debug("reading tfidf file");
-			CSVReader csvReader = new CSVReader(new FileReader(TFIDF_FILE));
-			List<String[]> lines = csvReader.readAll();
-			for (String[] columns : lines) {
-				String key = columns[0] + columns[1];
-				tfIdfMap.put(key, Float.valueOf(columns[2]));
-			}
-			csvReader.close();
-			logger.debug("read tfidf file");
-		}
 	}
 
 	public void calculateTfIdf() throws SQLException, IOException {
@@ -124,7 +110,18 @@ public class TfIdfCalculator {
 	}
 
 	public Float getTfIdf(String visit, String reportCui) throws IOException {
+		if (tfIdfMap.size() == 0) {
+			// add to map
+			logger.debug("reading tfidf file");
+			CSVReader csvReader = new CSVReader(new FileReader(TFIDF_FILE));
+			List<String[]> lines = csvReader.readAll();
+			for (String[] columns : lines) {
+				String key = columns[0] + columns[1];
+				tfIdfMap.put(key, Float.valueOf(columns[2]));
+			}
+			csvReader.close();
+			logger.debug("read tfidf file");
+		}
 		return tfIdfMap.get(visit + reportCui);
-
 	}
 }

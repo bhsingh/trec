@@ -4,21 +4,19 @@
  */
 package org.biosemantics.trec.report;
 
-import au.com.bytecode.opencsv.CSVReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import scala.actors.threadpool.Arrays;
-import scala.collection.parallel.ParIterableLike;
+import au.com.bytecode.opencsv.CSVReader;
 
 /**
  * 
@@ -36,12 +34,8 @@ public class ReportSearch {
 	private Map<String, List<String>> positiveConcepts = new HashMap<String, List<String>>();
 	private Map<String, List<String>> negativeConcepts = new HashMap<String, List<String>>();
 
-	private Connection getConnection() throws SQLException {
-		return DriverManager.getConnection("jdbc:mysql://10.218.27.190/trec_med_rec_2011?"
-				+ "user=root&password=21biosemantiek!?");
-	}
-
 	public ReportSearch() throws FileNotFoundException, IOException {
+		logger.debug("reading concepts file");
 		CSVReader csvReader = new CSVReader(new FileReader(CONCEPTS_FILE));
 		List<String[]> sentences = csvReader.readAll();
 		for (String[] columns : sentences) {
@@ -79,13 +73,13 @@ public class ReportSearch {
 			negativeConcepts.put(checksum, negConcepts);
 		}
 		csvReader.close();
+		logger.debug("concepts file read");
 	}
-
 	
-	public List<String> getPositiveCuisForReport(String checksum){
+	public List<String> getPositiveCuisForReport(String checksum) {
 		return positiveConcepts.get(checksum);
 	}
 
-	
-	private static final String CONCEPTS_FILE = "/home/bhsingh/Public/concept.txt";
+	private static final String CONCEPTS_FILE = "/Users/bhsingh/code/data/trec2013/concept.txt";
+	private static final Logger logger = LoggerFactory.getLogger(ReportSearch.class);
 }

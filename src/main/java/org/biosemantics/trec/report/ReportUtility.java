@@ -19,7 +19,7 @@ public class ReportUtility {
     private SentenceSplitterOpennlpImpl splitter;
 
     public ReportUtility() throws InvalidFormatException, IOException {
-        this.splitter = new SentenceSplitterOpennlpImpl("/home/bhsingh/code/git/trec/src/main/resources/en-sent.bin");
+        this.splitter = new SentenceSplitterOpennlpImpl("/Users/bhsingh/code/git/trec/src/main/resources/en-sent.bin");
     }
 
     public List<String> getFormattedSentences(String text) {

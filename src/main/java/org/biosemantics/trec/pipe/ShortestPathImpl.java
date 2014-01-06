@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
-import org.biosemantics.conceptstore.client.GraphDbInitializer;
 import org.biosemantics.trec.kb.CachedKbClient;
 import org.biosemantics.trec.report.ReportSearch;
 import org.biosemantics.trec.report.TfIdfCalculator;
@@ -22,12 +21,12 @@ import org.slf4j.LoggerFactory;
 
 public class ShortestPathImpl {
 
-	private static final String GRAPH_DB = "/media/ssd/bhsingh/graph.db";
+	private static final String ANSWERS = "/Users/bhsingh/code/git/trec/src/main/resources/answers101.txt";
+	private static final String GRAPH_DB = "/Users/bhsingh/code/neo4j-community-1.8/data/graph.db";
+	private static final String[] topicCuis = new String[] { "C0011053", "C0018772", "C1384666", "C2029884" };
+	// private static final String[] topicCuis = new String[] { "C0011053" };
 	private static ReportSearch reportSearch;
 	private static TrecDatabaseUtility trecDatabaseUtility;
-	 private static final String[] topicCuis = new String[] { "C0011053",
-	 "C0018772", "C1384666", "C2029884" };
-//	private static final String[] topicCuis = new String[] { "C0011053" };
 	// private static final String[] visits = new String[] { "+SKG7tCxA/zR",
 	// "+W4IQBZ/eY/Q", "u5Vz3dfoZa1d" };
 	// rel not,partially
@@ -45,8 +44,7 @@ public class ShortestPathImpl {
 	public static void main(String[] args) throws IOException, SQLException {
 		ShortestPathImpl impl = new ShortestPathImpl();
 		impl.init();
-		List<String> lines = FileUtils.readLines(new File(
-				"/home/bhsingh/code/git/trec/src/main/resources/answers101.txt"));
+		List<String> lines = FileUtils.readLines(new File(ANSWERS));
 		for (String line : lines) {
 			String[] columns = line.split("\\|");
 			String visit = columns[1];
@@ -63,7 +61,7 @@ public class ShortestPathImpl {
 			}
 			ShortestPathWithTfIdf tfIdfCal = new ShortestPathWithTfIdf(topicCuis, reportCuis, answer, visit,
 					tfIdfCalculator, cachedKbClient);
-			new Thread(tfIdfCal).start();
+			tfIdfCal.calculatePathScore();
 		}
 	}
 }
